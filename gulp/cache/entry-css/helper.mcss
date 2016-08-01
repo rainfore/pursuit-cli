@@ -1,0 +1,10 @@
+$line-height = ($height) {
+    height: $height;
+    line-height: $height;
+}
+
+$tab-size = ($tab-size) {
+    -webkit-tab-size: $tab-size;
+    -moz-tab-size: $tab-size;
+    tab-size: $tab-size;
+}

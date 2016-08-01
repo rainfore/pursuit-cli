@@ -1,0 +1,60 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const fs = require('fs');
+const execSync = require('child_process').execSync;
+const readline = require('readline');
+const semver = require('semver');
+
+const program = require('commander');
+program
+    .usage('rgui-tools-publish <version>')
+    .option('-d, --doc', 'Public docs')
+    .parse(process.argv);
+
+const version = semver.clean(program.args[0]);
+if(!semver)
+    return console.error('error: invalid version');
+
+const pkgPath = process.cwd() + '/package.json';
+if(!fs.existsSync(pkgPath)) {
+    console.error('error: Not a RGUI package');
+    console.error('Please `cd` into a RGUI package directory or use `rgui-tools init` to create a new package.');
+    return;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+rl.prompt();
+
+rl.question(`
+The new version is "${version}".
+----------------------------------------
+Are you sure to continue? (yes/no) `, (answer) => {
+    rl.close();
+    console.log('');
+    if(answer !== 'yes')
+        return;
+
+    let pkgInfo = fs.readFileSync(pkgPath, 'utf-8') + '';
+    pkgInfo = pkgInfo.replace(/"version":\s*".*",/, `"version": "${version}",`);
+    fs.writeFileSync(pkgPath, pkgInfo, 'utf-8');
+
+    let shells = [];
+    if(program.doc)
+        shells = shells.concat(['rgui-tools doc', 'rgui-tools gh-pages']);
+
+    shells = shells.concat([
+        `git add -A .`,
+        `git commit -m "v${version}"`,
+        `npm publish`,
+        `git push origin master`,
+        `git tag v${version}`,
+        `git push origin v${version}`,
+    ]);
+
+    console.log(execSync(shells.join(';')) + '');
+});

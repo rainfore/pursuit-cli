@@ -1,0 +1,183 @@
+<h2 id="API">API</h2>
+
+<h3 id="Class">Class</h3>
+<h4><%= class_.name %></h4>
+<p>继承自<strong><%= class_.extend %></strong>。</p>
+<p><%= class_.description %></p>
+<div id="j-class"></div>
+
+<h3 id="Options">Options</h3>
+<h4>new <%= class_.name %>()</h4>
+<table>
+    <thead>
+        <tr><th width="24%">参数</th><th width="16%">类型</th><th width="16%">默认值</th><th width="18%">数据流向</th><th width="26%">描述</th></tr>
+    </thead>
+    <tbody>
+        <% if(class_.params.length) { %>
+            <% class_.params.forEach(function(param) { %>
+            <tr><td class="f-wsn"><code><%= param.name %></code></td><td class="f-wsn"><%- param.type %></td><td class="f-wsn"><% if(param.default_) { %><code><%= param.default_ %></code><% } %></td><td class="f-tac"><% if(param.bindWay !== ' = ') { %>outside <%= param.bindWay %> inside<% } else { %><% } %></td><td><%= param.description %></td></tr>
+            <% }); %>
+        <% } else { %>
+            <tr><td class="f-tac" colspan="5">无参数</td></tr>
+        <% } %>
+    </tbody>
+</table>
+<div id="j-options"></div>
+
+<% if(methods.length) { %>
+    <h3 id="Methods">Methods</h3>
+    <% methods.forEach(function(method) { %>
+    <% if(method.ignore) return; %>
+    <h4><% if(method.deprecated) { %><span class="u-text u-text-muted">@deprecated</span> <% } %><%= class_.lowerName %>.<%= method.name %>(<%= method.body %>)</h4>
+    <p><%= method.description %></p>
+    <table>
+        <thead>
+            <tr><th width="25%">参数</th><th width="25%">类型</th><th width="25%">默认值</th><th width="25%">描述</th></tr>
+        </thead>
+        <tbody>
+            <% if(method.params.length) { %>
+                <% method.params.forEach(function(param) { %>
+                <tr><td class="f-wsn"><code><%= param.name %></code></td><td class="f-wsn"><%- param.type %></td><td class="f-wsn"><% if(param.default_) { %><code><%= param.default_ %></code><% } %></td><td><%= param.description %></td></tr>
+                <% }); %>
+            <% } else { %>
+                <tr><td class="f-tac" colspan="4">无参数</td></tr>
+            <% } %>
+        </tbody>
+        <thead>
+            <tr><th width="25%">返回值</th><th width="25%">类型</th><th width="50%" colspan="2">描述</th></tr>
+        </thead>
+        <tbody>
+            <% if(method.return_ && method.return_.type !== 'void') { %>
+                <tr><td class="f-wsn"><code><%= method.return_.name %></code></td><td class="f-wsn"><%- method.return_.type %></td><td colspan="2"><%= method.return_.description %></td></tr>
+            <% } else { %>
+                <tr><td class="f-tac" colspan="4">无返回值</td></tr>
+            <% } %>
+        </tbody>
+    </table>
+    <% }); %>
+<% } %>
+<div id="j-methods"></div>
+
+<% if(staticMethods.length) { %>
+    <h3 id="Static-Methods">Static Methods</h3>
+    <% staticMethods.forEach(function(method) { %>
+    <% if(method.ignore) return; %>
+    <h4><% if(method.deprecated) { %><span class="u-text u-text-muted">@deprecated</span> <% } %><%= class_.name %>.<%= method.name %>(<%= method.body %>)</h4>
+    <p><%= method.description %></p>
+    <table>
+        <thead>
+            <tr><th width="25%">参数</th><th width="25%">类型</th><th width="25%">默认值</th><th width="25%">描述</th></tr>
+        </thead>
+        <tbody>
+            <% if(method.params.length) { %>
+                <% method.params.forEach(function(param) { %>
+                <tr><td class="f-wsn"><code><%= param.name %></code></td><td class="f-wsn"><%- param.type %></td><td class="f-wsn"><% if(param.default_) { %><code><%= param.default_ %></code><% } %></td><td><%= param.description %></td></tr>
+                <% }); %>
+            <% } else { %>
+                <tr><td class="f-tac" colspan="4">无参数</td></tr>
+            <% } %>
+        </tbody>
+        <thead>
+            <tr><th width="25%">返回值</th><th width="25%">类型</th><th width="50%" colspan="2">描述</th></tr>
+        </thead>
+        <tbody>
+            <% if(method.return_ && method.return_.type !== 'void') { %>
+                <tr><td class="f-wsn"><code><%= method.return_.name %></code></td><td class="f-wsn"><%- method.return_.type %></td><td colspan="2"><%= method.return_.description %></td></tr>
+            <% } else { %>
+                <tr><td class="f-tac" colspan="4">无返回值</td></tr>
+            <% } %>
+        </tbody>
+    </table>
+    <% }); %>
+<% } %>
+<div id="j-staticMethods"></div>
+
+<% if(inheritedMethods.length) { %>
+    <h3 id="Inherited-Methods">Inherited Methods</h3>
+    <% inheritedMethods.forEach(function(method) { %>
+    <% if(method.ignore) return; %>
+    <% if(!method.overridden) { %>
+        <h4><% if(method.deprecated) { %><span class="u-text u-text-muted">@deprecated</span> <% } %><%= class_.lowerName %>.<%= method.name %>(<%= method.body %>)</h4>
+        <p><%= method.description %></p>
+        <table>
+            <thead>
+                <tr><th width="25%">参数</th><th width="25%">类型</th><th width="25%">默认值</th><th width="25%">描述</th></tr>
+            </thead>
+            <tbody>
+                <% if(method.params.length) { %>
+                    <% method.params.forEach(function(param) { %>
+                    <tr><td class="f-wsn"><code><%= param.name %></code></td><td class="f-wsn"><%- param.type %></td><td class="f-wsn"><% if(param.default_) { %><code><%= param.default_ %></code><% } %></td><td><%= param.description %></td></tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr><td class="f-tac" colspan="4">无参数</td></tr>
+                <% } %>
+            </tbody>
+            <thead>
+                <tr><th width="25%">返回值</th><th width="25%">类型</th><th width="50%" colspan="2">描述</th></tr>
+            </thead>
+            <tbody>
+                <% if(method.return_ && method.return_.type !== 'void') { %>
+                    <tr><td class="f-wsn"><code><%= method.return_.name %></code></td><td class="f-wsn"><%- method.return_.type %></td><td colspan="2"><%= method.return_.description %></td></tr>
+                <% } else { %>
+                    <tr><td class="f-tac" colspan="4">无返回值</td></tr>
+                <% } %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <h4><span class="u-text u-text-muted">@override</span> <del><%= class_.lowerName %>.<%= method.name %>(<%= method.body %>)</del></h4>
+    <% } %>
+    <% }); %>
+<% } %>
+<div id="j-inheritedMethods"></div>
+
+<% if(events.length) { %>
+    <h3 id="Events">Events</h3>
+    <% events.forEach(function(event) { %>
+    <% if(event.ignore) return; %>
+    <h4><%= class_.lowerName %>.$on('<%= event.name %>')</h4>
+    <p><%= event.description %></p>
+    <table>
+        <thead>
+            <tr><th width="33%">属性</th><th width="33%">类型</th><th width="33%">描述</th></tr>
+        </thead>
+        <tbody>
+            <% if(event.properties.length) { %>
+                <% event.properties.forEach(function(property) { %>
+                <tr><td class="f-wsn"><code><%= property.name %></code></td><td class="f-wsn"><%- property.type %></td><td class="f-wsn"><%= property.description %></td></tr>
+                <% }); %>
+            <% } else { %>
+                <tr><td class="f-tac" colspan="4">无属性</td></tr>
+            <% } %>
+        </tbody>
+    </table>
+    <% }); %>
+<% } %>
+<div id="j-events"></div>
+
+<% if(inheritedEvents.length) { %>
+    <h3 id="Inherited-Events">Inherited Events</h3>
+    <% inheritedEvents.forEach(function(event) { %>
+    <% if(event.ignore) return; %>
+    <% if(!event.overridden) { %>
+        <h4><%= class_.lowerName %>.$on('<%= event.name %>')</h4>
+        <p><%= event.description %></p>
+        <table>
+            <thead>
+                <tr><th width="33%">属性</th><th width="33%">类型</th><th width="33%">描述</th></tr>
+            </thead>
+            <tbody>
+                <% if(event.properties.length) { %>
+                    <% event.properties.forEach(function(property) { %>
+                    <tr><td class="f-wsn"><code><%= property.name %></code></td><td class="f-wsn"><%- property.type %></td><td class="f-wsn"><%= property.description %></td></tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr><td class="f-tac" colspan="4">无属性</td></tr>
+                <% } %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <h4><span class="u-text u-text-muted">@override</span> <del><%= class_.lowerName %>.$on('<%= event.name %>')</del></h4>
+    <% } %>
+    <% }); %>
+<% } %>
+<div id="j-inheritedEvents"></div>

@@ -1,0 +1,51 @@
+#!/usr/bin/env node
+
+'use strict';
+
+let fs = require('fs');
+let pkg = require('../package.json');
+
+let program = require('commander');
+program
+    .usage('[options] <task>')
+    .version(pkg.version)
+    .command('init [options] <repo>', 'init a repo')
+    .command('publish [options] <version>', 'publish a version')
+    .option('-w, --watch', 'watch')
+    .option('-l, --library <library>', 'output library name when dist')
+    .option('--devtool <devtool>', 'dev tool when dist')
+    .option('-O, --online', 'online mode')
+    .option('-s, --single-run', 'single run when test')
+    .option('-b, --browsers <browsers>', 'browsers used when test')
+    .option('-r, --reporters <reporters>', 'build reports when test')
+    .option('-v, --verbose', 'verbose')
+    .option('-f, --fix', 'fix when lint')
+    .option('-t, --tests', 'tests when lint')
+    .parse(process.argv);
+
+let command = program.args[0];
+
+if(!command)
+    return program.help();
+if(command === 'init' || command === 'publish')
+    return;
+if(!fs.existsSync(process.cwd() + '/package.json')) {
+    console.error('error: Not a RGUI package');
+    console.error('Please `cd` into a RGUI package directory or use `rgui-tools init` to create a new package.');
+    return;
+}
+
+let gulp = require('../lib/logEventsGulp.js');
+gulp.program = program;
+
+// 分开引用，加快gulp启动速度
+if(command.startsWith('dist'))
+    require('../gulp/dist/index.js');
+else if(command.startsWith('test'))
+    require('../gulp/test/index.js');
+else if(command.startsWith('lint'))
+    require('../gulp/lint/index.js');
+else
+    require('../gulpfile.js');
+
+gulp.start(command);
