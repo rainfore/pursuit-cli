@@ -25,7 +25,6 @@
     "commander": "^2.9.0",
     "ejs": "^2.4.1",
     "expect.js": "^0.3.1",
-    "gh-pages": "^0.11.0",
     "gulp": "^3.9.1",
     "gulp-all": "^1.1.0",
     "gulp-eslint": "^3.0.0",
@@ -56,7 +55,6 @@
     "regularjs": "0.4.3",
     "rgl-loader": "^0.4.0",
     "run-sequence": "^1.2.1",
-    "semver": "^5.3.0",
     "through2": "^2.0.1"
   }
 }

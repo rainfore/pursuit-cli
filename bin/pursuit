@@ -1,0 +1,61 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const fs = require('fs');
+const pkg = require('../package.json');
+
+const program = require('commander');
+program
+    .usage('[options] <task>')
+    .version(pkg.version)
+    .command('init [options] <repo>', 'init a PURSUIT repo')
+    .option('-w, --watch', 'watch')
+    .option('-O, --online', 'online mode')
+    .option('-v, --verbose', 'verbose')
+    .option('-f, --fix', 'fix when lint')
+    .parse(process.argv);
+
+const command = program.args[0];
+
+if (!command)
+    return program.help();
+if (command === 'init')
+    return;
+// if(!fs.existsSync(process.cwd() + '/package.json')) {
+//     console.error('error: Not a npm package');
+//     console.error('Please `cd` into a npm package directory.');
+//     return;
+// }
+
+// 合并cwd路径下的pursuit.conf.js
+const cwdPursuitConfPath = process.cwd() + '/pursuit.conf.js';
+if (fs.existsSync(cwdPursuitConfPath)) {
+    const cwdPursuitConf = require(cwdPursuitConfPath);
+    for (let key in cwdPursuitConf) {
+        // 命令优先，不覆盖program中的参数
+        if (cwdPursuitConf.hasOwnProperty(key) && program[key] === undefined)
+            program[key] = cwdPursuitConf[key];
+    }
+}
+
+// 给gulp配置参数
+const gulp = require('../lib/logEventsGulp.js');
+gulp.program = program;
+
+// 分开引用，加快gulp启动速度
+if (command.startsWith('build'))
+    require('../gulp/build/index.js');
+else if (command.startsWith('test'))
+    require('../gulp/test/index.js');
+else if (command.startsWith('lint'))
+    require('../gulp/lint/index.js');
+else
+    require('../gulpfile.js');
+
+// 引入cwd路径下的task
+const cwdGulpfilePath = process.cwd() + '/gulpfile.js';
+if (fs.existsSync(cwdGulpfilePath))
+    require(cwdGulpfilePath);
+
+gulp.start(command);

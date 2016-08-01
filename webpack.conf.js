@@ -1,22 +1,10 @@
 'use strict';
 
-let babelConfig = require('./babelrc.js');
+const babelConfig = require('./babelrc.js');
 
 module.exports = function(options) {
     return Object.assign({
-        output: {
-            filename: 'index.js',
-            library: 'RGUI',
-            libraryTarget: 'umd'
-        },
-        externals: {
-            'regularjs': {
-                root: 'Regular',
-                amd: 'Regular',
-                commonjs: 'regularjs',
-                commonjs2: 'regularjs'
-            }
-        },
+        output: { filename: '[name].js' },
         babel: babelConfig,
         module: {
             loaders: [
@@ -24,5 +12,5 @@ module.exports = function(options) {
                 { test: /\.js$/, exclude: /node_modules\/(?!rgui-)/, loader: require.resolve('babel-loader') }
             ]
         }
-    }, options || {});
+    }, options);
 }

@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const execSync = require('child_process').execSync;
+
+const program = require('commander');
+program
+    .usage('pursuit-init <repo>')
+    .parse(process.argv);
+
+const repo = program.args[0];
+if(!repo)
+    repo = pursuit;
+
+const URL = 'https://github.com/rainfore/pursuit.git';
+
+console.log(execSync([
+    `git clone -b master --depth 1 ${URL} ${repo}`,
+    `cd ${repo}`,
+    `rm -rf .git`,
+    `git init`,
+].join(';')) + '');
+process.chdir(repo);
+
+/*
+console.log(execSync(`mv sample ${program.components[0].lowerName}`) + '');
+
+// Replace
+let gulp = require('gulp');
+gulp.program = program;
+
+require('../gulp/replace/index.js');
+gulp.start('replace');
+*/
