@@ -20,8 +20,6 @@ module.exports = function (webpackConfig) {
         cb();
     }, function (cb) {
         webpackConfig.entry = entry;
-
-        console.log(webpackConfig);
         cb();
     });
 }
