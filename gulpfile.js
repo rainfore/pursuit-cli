@@ -4,11 +4,11 @@ const gulp = require('gulp');
 const sequence = require('run-sequence');
 
 // require('./gulp/cache/index.js');
-// require('./gulp/lint/index.js');
 
+require('./gulp/lint');
 require('./gulp/build');
 
-gulp.task('dev', ['build']);
+gulp.task('dev', ['build', 'lint']);
 gulp.task('online', ['build']);
 
 // gulp.task('doc', (done) => {
