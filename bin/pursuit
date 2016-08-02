@@ -39,6 +39,13 @@ if (fs.existsSync(cwdPursuitConfPath)) {
     }
 }
 
+if(command === 'dev')
+    program.watch = true;
+else if(command === 'online') {
+    program.watch = false;
+    program.online = true;
+}
+
 // 给gulp配置参数
 const gulp = require('../lib/logEventsGulp.js');
 gulp.program = program;

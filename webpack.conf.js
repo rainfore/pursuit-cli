@@ -11,6 +11,6 @@ module.exports = function(options) {
                 { test: /\.rgl$/, loader: require.resolve('rgl-loader') },
                 { test: /\.js$/, exclude: /node_modules\/(?!rgui-)/, loader: require.resolve('babel-loader') }
             ]
-        }
+        },
     }, options);
 }

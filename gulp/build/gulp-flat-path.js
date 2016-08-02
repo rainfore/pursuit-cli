@@ -13,10 +13,8 @@ module.exports = function (webpackConfig) {
         if(file.isStream())
             throw new PluginError('gulp-flat-path', 'Streaming not supported');
 
-        const reg = /page(\\|\/)(.*)(?:\\|\/)index/;
+        const reg = /page([\\\/])(.+)[\\\/]index/;
         file.path = file.path.replace(reg, (m, slash, name) => `page${slash}${name}`);
-
-        console.log('mcss', file.path);
 
         cb(null, file);
     });

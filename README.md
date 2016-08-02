@@ -16,9 +16,11 @@ CLI for the PURSUIT framework.
     - `-f, --fix`：验证时自动修复
 
 - `-w, --watch`：监听文件变更
-- `-c, --compress`：压缩文件
 
-- `-O, --online`：线上模式
+集成命令：
+
+- `pursuit dev`：相当于`pursuit build+doc+lint --watch`，并且始终监听文件
+- `pursuit online`：相当于`pursuit build+test+lint`，并且永不监听文件
 
 
 

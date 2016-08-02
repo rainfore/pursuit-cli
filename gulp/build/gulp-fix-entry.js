@@ -13,14 +13,15 @@ module.exports = function (webpackConfig) {
         if(file.isStream())
             throw new PluginError('gulp-fix-entry', 'Streaming not supported');
 
-        console.log(file.path);
-        const reg = /page(?:\\|\/)(.*)(?:\\|\/)index\.js$/;
+        const reg = /page[\\\/](.*)[\\\/]index\.js$/;
         const name = file.path.match(reg)[1];
         entry[name] = file.path;
 
         cb();
     }, function (cb) {
         webpackConfig.entry = entry;
+
+        console.log(webpackConfig);
         cb();
     });
 }
