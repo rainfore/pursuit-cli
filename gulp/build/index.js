@@ -21,26 +21,26 @@ const webpackConf = require('../../webpack.conf.js');
  * Clean dest files
  */
 gulp.task('build-clean', (done) => {
-    return gulp.src(config.dest, { read: false }).pipe(rm());
+    return gulp.src(settings.dest, { read: false }).pipe(rm());
 });
 
 /**
  * Copy assets
  */
 gulp.task('build-copy', (done) => {
-    return gulp.src(config.src + '/assets/**').pipe(gulp.dest(config.dest));
+    return gulp.src(settings.src + '/assets/**').pipe(gulp.dest(settings.dest));
 });
-gulp.task('build-copy-watch', ['build-copy'], (done) => gulp.watch(config.src + '/assets/**', ['build-copy']));
+gulp.task('build-copy-watch', ['build-copy'], (done) => gulp.watch(settings.src + '/assets/**', ['build-copy']));
 
 /**
  * Copy pages
  */
 gulp.task('build-page', (done) => {
-    return gulp.src(config.src + '/page/*/index.html')
+    return gulp.src(settings.src + '/page/*/index.html')
         .pipe(flatPath())
-        .pipe(gulp.dest(config.dest));
+        .pipe(gulp.dest(settings.dest));
 });
-gulp.task('build-page-watch', ['build-page'], (done) => gulp.watch(config.src + '/page/**/index.html', ['build-page']));
+gulp.task('build-page-watch', ['build-page'], (done) => gulp.watch(settings.src + '/page/**/index.html', ['build-page']));
 
 /**
  * Build JS
@@ -48,20 +48,20 @@ gulp.task('build-page-watch', ['build-page'], (done) => gulp.watch(config.src + 
 gulp.task('build-js', (done) => {
     const webpackConfig = webpackConf();
 
-    if (config.watch) {
+    if (settings.watch) {
         webpackConfig.watch = true;
         webpackConfig.devtool = 'eval';
     }
 
-    const stream = gulp.src(config.src + '/page/**/index.js')
+    const stream = gulp.src(settings.src + '/page/**/index.js')
         .pipe(fixEntry(webpackConfig))
         .pipe(webpack(webpackConfig))
-        .pipe(gulp.dest(config.dest + '/js'));
+        .pipe(gulp.dest(settings.dest + '/js'));
 
-    if (config.compress || config.online) {
+    if (settings.compress || settings.online) {
         stream.pipe(rename({ suffix: '.min' }))
         .pipe(uglify())
-        .pipe(gulp.dest(config.dest + '/js'));
+        .pipe(gulp.dest(settings.dest + '/js'));
     }
 
     return stream;
@@ -72,29 +72,29 @@ gulp.task('build-js-watch', ['build-js']);
  * Build CSS
  */
 gulp.task('build-css', (done) => {
-    const stream = gulp.src(config.src + '/page/**/index.mcss')
+    const stream = gulp.src(settings.src + '/page/**/index.mcss')
         .pipe(mcss({
             pathes: [__dirname + '/../../node_modules/mass', './node_modules'],
             importCSS: true,
         }))
         .pipe(flatPath())
-        .pipe(gulp.dest(config.dest + '/css'));
+        .pipe(gulp.dest(settings.dest + '/css'));
 
-    if (config.compress || config.online) {
+    if (settings.compress || settings.online) {
         stream.pipe(rename({suffix: '.min'}))
         .pipe(minifycss())
-        .pipe(gulp.dest('./' + config.dest + '/css'));
+        .pipe(gulp.dest('./' + settings.dest + '/css'));
     }
 
     return stream;
 });
-gulp.task('build-css-watch', ['build-css'], (done) => gulp.watch(config.src + '/**/*.mcss', ['build-css']));
+gulp.task('build-css-watch', ['build-css'], (done) => gulp.watch(settings.src + '/**/*.mcss', ['build-css']));
 
 /**
  * Build
  */
 gulp.task('build', (done) => {
-    if (config.watch)
+    if (settings.watch)
         sequence('build-clean', ['build-copy-watch', 'build-page-watch', 'build-js-watch', 'build-css-watch'], done);
     else
         sequence('build-clean', ['build-copy', 'build-page', 'build-js', 'build-css'], done);

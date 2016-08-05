@@ -14,7 +14,10 @@ module.exports = function(config) {
         singleRun: true,
         browsers: ['PhantomJS'],    // 'Chrome', 'Firefox', 'IE', 'IE9', 'IE8'
         frameworks: ['mocha', 'expect'],
-        files: filePath,
+        files: [
+            './node_modules/babel-polyfill/dist/polyfill.min.js',
+            filePath,
+        ],
         preprocessors: preprocessors,
         webpack: webpackConfig,
         webpackMiddleware: { noInfo: true },
@@ -29,5 +32,5 @@ module.exports = function(config) {
         // htmlReporter: {
         //     outputDir: `${reportsPath}/result`
         // }
-    }, config.karma));
+    }, settings.karma));
 };

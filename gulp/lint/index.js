@@ -8,26 +8,25 @@ const sequence = require('run-sequence');
 const eslint = require('gulp-eslint');
 let eslintConfig = require('../../.eslintrc.js');
 
-if(config.fix)
+if(settings.fix)
     eslintConfig.fix = true;
 
 gulp.task('lint-run', (done) => {
-    console.log(eslintConfig);
-    const stream = gulp.src(config.src + '/**/*.js')
+    const stream = gulp.src(settings.src + '/**/*.js')
         .pipe(eslint(eslintConfig))
         .pipe(eslint.format())
-        .pipe(gulpIf((file) => file.eslint !== null && file.eslint.fixed, gulp.dest(config.src)));
+        .pipe(gulpIf((file) => file.eslint !== null && file.eslint.fixed, gulp.dest(settings.src)));
 
-    if(!config.watch)
+    if(!settings.watch)
         stream.pipe(eslint.failAfterError());
 
     return stream;
 });
 
-gulp.task('lint-watch', ['lint-run'], (done) => gulp.watch(config.src + '/**/*.js', ['lint-run']));
+gulp.task('lint-watch', ['lint-run'], (done) => gulp.watch(settings.src + '/**/*.js', ['lint-run']));
 
 gulp.task('lint', (done) => {
-    if (config.watch)
+    if (settings.watch)
         sequence('lint-watch', done);
     else
         sequence('lint-run', done);

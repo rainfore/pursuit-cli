@@ -11,20 +11,20 @@ const build = require('./gulp-build.js');
 // });
 
 gulp.task('doc-build', (done) => {
-    return gulp.src(config.src + '/**/demo/*.md')
+    return gulp.src(settings.src + '/**/demo/*.md')
         .pipe(build({
-            dest: config.dest,
-            library: config.library,
+            dest: settings.dest,
+            library: settings.library,
         }))
         .pipe(gulp.dest('.'));
 });
 
 gulp.task('doc-watch', ['doc-build'], (done) => {
-    gulp.watch(config.src + '/**/*.md', ['doc-build']);
+    gulp.watch(settings.src + '/**/*.md', ['doc-build']);
 });
 
 gulp.task('doc', (done) => {
-    if (config.watch)
+    if (settings.watch)
         sequence(['doc-watch'], done);
     else
         sequence(['doc-build'], done);

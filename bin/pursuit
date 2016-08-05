@@ -35,7 +35,8 @@ if (command === 'init')
 /**
  * 处理配置
  */
-global.config = {
+// config太多人用了，容易冲突
+global.settings = {
     command,
     watch: false,
     online: false,
@@ -49,21 +50,21 @@ global.config = {
 const cwdConfigPath = process.cwd() + '/pursuit.config.js';
 if (fs.existsSync(cwdConfigPath)) {
     const cwdConfig = require(cwdConfigPath);
-    Object.assign(config, cwdConfig);
+    Object.assign(settings, cwdConfig);
 }
 
 // 合并program的配置
-for(let key in config) {
-    if(config.hasOwnProperty(key) && program[key] !== undefined)
-        config[key] = program[key];
+for(let key in settings) {
+    if(settings.hasOwnProperty(key) && program[key] !== undefined)
+        settings[key] = program[key];
 }
 
 if(command === 'dev') {
-    config.watch = true;
-    config.fix = true;
+    settings.watch = true;
+    settings.fix = true;
 } else if(command === 'online') {
-    config.watch = false;
-    config.online = true;
+    settings.watch = false;
+    settings.online = true;
 }
 
 /**

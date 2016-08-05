@@ -11,7 +11,7 @@ module.exports = function(options) {
             library: 'RGUI',
         },
         resolve: {
-            alias: { src: path.join(process.cwd(), config.src) },
+            alias: { src: path.join(process.cwd(), settings.src) },
         },
         babel: babelConfig,
         module: {
@@ -20,5 +20,5 @@ module.exports = function(options) {
                 { test: /\.js$/, exclude: /node_modules\/(?!rgui-)/, loader: require.resolve('babel-loader') }
             ],
         },
-    }, config.webpack, options);
+    }, settings.webpack, options);
 }
