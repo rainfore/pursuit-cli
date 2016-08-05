@@ -17,7 +17,7 @@ let markdown = require('./markdown.js');
 let jsAPI = require('./js-api.js');
 
 module.exports = function(options) {
-    options = options || {verbose: true};
+    options = options || {};
 
     return through2.obj((file, enc, cb) => {
         // 目前只为*.md的生成页面
@@ -30,7 +30,8 @@ module.exports = function(options) {
         let jsonpath = path.join(file.path, '../../index.json');
 
         let data = {
-            assetsPath: 'https://regular-ui.github.io/v0.2/',
+            relativePath: path.relative(path.dirname(file.path), process.cwd() + '/' + options.dest),
+            assetsPath: 'https://regular-ui.github.io/v0.2',
             name: '',
             zhName: '',
             content: '',
@@ -41,6 +42,8 @@ module.exports = function(options) {
         // 获取index.json中的基本信息
         if(fs.existsSync(jsonpath))
             data = Object.assign(data, JSON.parse(fs.readFileSync(jsonpath, 'utf-8')));
+        else
+            data.name = path.basename(path.join(file.path, '../..'));
 
         data.content = file.contents.toString();
         let tpl = templates.head + '<div class="g-bd"><div class="g-bdc">' + templates.main + '</div></div>' + templates.foot;
@@ -69,11 +72,12 @@ module.exports = function(options) {
         }
 
         // 变更路径，修改file
-        file.base = file.cwd;
-        file.path = file.path.replace(/demo\/(.+)\.md$/, '$1.html');
+
+        file.base = process.cwd();
+        file.path = file.path.replace(/\.md$/, '.html');
         file.contents = new Buffer(html);
 
-        options.verbose && console.log('[' + chalk.grey(new Date().toLocaleTimeString()) + ']', chalk.blue('Building'), 'doc/' + path.relative(file.base, file.path));
+        console.log('[' + chalk.grey(new Date().toLocaleTimeString()) + ']', chalk.blue('Building'), path.relative(file.base, file.path));
 
         cb(null, file);
     });

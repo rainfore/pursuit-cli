@@ -1,8 +1,7 @@
 'use strict';
 
 const gulp = require('gulp');
-const program = gulp.program || {};
-
+const path = require('path');
 const sequence = require('run-sequence');
 const rm = require('gulp-rimraf');
 const rename = require('gulp-rename');
@@ -22,46 +21,47 @@ const webpackConf = require('../../webpack.conf.js');
  * Clean dest files
  */
 gulp.task('build-clean', (done) => {
-    return gulp.src(program.dest, {read: false}).pipe(rm());
+    return gulp.src(config.dest, { read: false }).pipe(rm());
 });
 
 /**
  * Copy assets
  */
 gulp.task('build-copy', (done) => {
-    return gulp.src(program.src + '/assets/**').pipe(gulp.dest(program.dest));
+    return gulp.src(config.src + '/assets/**').pipe(gulp.dest(config.dest));
 });
-gulp.task('build-copy-watch', ['build-copy'], (done) => gulp.watch(program.src + '/assets/**', ['build-copy']));
+gulp.task('build-copy-watch', ['build-copy'], (done) => gulp.watch(config.src + '/assets/**', ['build-copy']));
 
 /**
  * Copy pages
  */
 gulp.task('build-page', (done) => {
-    return gulp.src(program.src + '/page/*/index.html')
+    return gulp.src(config.src + '/page/*/index.html')
         .pipe(flatPath())
-        .pipe(gulp.dest(program.dest));
+        .pipe(gulp.dest(config.dest));
 });
-gulp.task('build-page-watch', ['build-page'], (done) => gulp.watch(program.src + '/page/**/index.html', ['build-page']));
+gulp.task('build-page-watch', ['build-page'], (done) => gulp.watch(config.src + '/page/**/index.html', ['build-page']));
 
 /**
  * Build JS
  */
 gulp.task('build-js', (done) => {
-    const webpackConfig = webpackConf(program.webpack);
-    if (program.watch) {
+    const webpackConfig = webpackConf();
+
+    if (config.watch) {
         webpackConfig.watch = true;
         webpackConfig.devtool = 'eval';
     }
 
-    const stream = gulp.src('./' + program.src + '/page/**/index.js')
+    const stream = gulp.src(config.src + '/page/**/index.js')
         .pipe(fixEntry(webpackConfig))
         .pipe(webpack(webpackConfig))
-        .pipe(gulp.dest(program.dest + '/js'));
+        .pipe(gulp.dest(config.dest + '/js'));
 
-    if (program.compress || program.online) {
-        stream.pipe(rename({suffix: '.min'}))
+    if (config.compress || config.online) {
+        stream.pipe(rename({ suffix: '.min' }))
         .pipe(uglify())
-        .pipe(gulp.dest('./' + program.dest + '/js'));
+        .pipe(gulp.dest(config.dest + '/js'));
     }
 
     return stream;
@@ -72,29 +72,29 @@ gulp.task('build-js-watch', ['build-js']);
  * Build CSS
  */
 gulp.task('build-css', (done) => {
-    const stream = gulp.src('./' + program.src + '/page/**/index.mcss')
+    const stream = gulp.src(config.src + '/page/**/index.mcss')
         .pipe(mcss({
             pathes: [__dirname + '/../../node_modules/mass', './node_modules'],
             importCSS: true,
         }))
         .pipe(flatPath())
-        .pipe(gulp.dest(program.dest + '/css'));
+        .pipe(gulp.dest(config.dest + '/css'));
 
-    if (program.compress || program.online) {
+    if (config.compress || config.online) {
         stream.pipe(rename({suffix: '.min'}))
         .pipe(minifycss())
-        .pipe(gulp.dest('./' + program.dest + '/css'));
+        .pipe(gulp.dest('./' + config.dest + '/css'));
     }
 
     return stream;
 });
-gulp.task('build-css-watch', ['build-css'], (done) => gulp.watch(program.src + '/**/*.mcss', ['build-css']));
+gulp.task('build-css-watch', ['build-css'], (done) => gulp.watch(config.src + '/**/*.mcss', ['build-css']));
 
 /**
  * Build
  */
 gulp.task('build', (done) => {
-    if (program.watch)
+    if (config.watch)
         sequence('build-clean', ['build-copy-watch', 'build-page-watch', 'build-js-watch', 'build-css-watch'], done);
     else
         sequence('build-clean', ['build-copy', 'build-page', 'build-js', 'build-css'], done);

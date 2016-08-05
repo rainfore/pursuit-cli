@@ -1,3 +1,9 @@
+const fs = require('fs');
+
+const cwdLintConfigPath = process.cwd() + '/.eslintrc.js';
+if (fs.existsSync(cwdLintConfigPath))
+    return module.exports = require(cwdLintConfigPath);
+
 module.exports = {
     envs: ['browser', 'commonjs', 'es6'],
     globals: [],

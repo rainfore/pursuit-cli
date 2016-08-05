@@ -11,8 +11,26 @@
     "url": "http://github.com/rainfore/pursuit-cli/issues"
   },
   "license": "MIT",
-  "keywords": ["framework", "fullstack", "webpack", "gulp", "regular", "mcss", "rgui", "stateman"],
-  "tags": ["framework", "fullstack", "webpack", "gulp", "regular", "mcss", "rgui", "stateman"],
+  "keywords": [
+    "framework",
+    "fullstack",
+    "webpack",
+    "gulp",
+    "regular",
+    "mcss",
+    "rgui",
+    "stateman"
+  ],
+  "tags": [
+    "framework",
+    "fullstack",
+    "webpack",
+    "gulp",
+    "regular",
+    "mcss",
+    "rgui",
+    "stateman"
+  ],
   "dependencies": {
     "babel-core": "^6.9.0",
     "babel-loader": "^6.2.4",
@@ -34,6 +52,7 @@
     "gulp-rimraf": "^0.2.0",
     "gulp-uglify": "^1.5.3",
     "gulp-util": "^3.0.7",
+    "gulp-watch": "^4.3.9",
     "gulp-webpack": "^1.5.0",
     "gulp_mcss": "^0.3.0",
     "isparta-loader": "^2.0.0",

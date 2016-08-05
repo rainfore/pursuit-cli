@@ -33,7 +33,7 @@ module.exports = function(filename, options) {
             cwd: lastFile.cwd,
             base: lastFile.base,
             path: path.join(lastFile.base, filename),
-            contents
+            contents,
         });
 
         this.push(file);

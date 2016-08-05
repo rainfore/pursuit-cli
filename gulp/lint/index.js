@@ -4,37 +4,30 @@ const gulp = require('gulp');
 const gulpIf = require('gulp-if');
 const fs = require('fs');
 const sequence = require('run-sequence');
-const program = gulp.program || {};
 
 const eslint = require('gulp-eslint');
-let eslintConfig;
-const cwdLintConfPath = process.cwd() + '/.eslintrc.js';
-if (fs.existsSync(cwdLintConfPath))
-    eslintConfig = require(cwdLintConfPath);
-else
-    eslintConfig = require('../../.eslintrc.js');
+let eslintConfig = require('../../.eslintrc.js');
 
-if(program.fix)
+if(config.fix)
     eslintConfig.fix = true;
 
-const SRC_PATHES = [program.src + '/**/*.js'];
-
 gulp.task('lint-run', (done) => {
-    const stream = gulp.src(SRC_PATHES)
+    console.log(eslintConfig);
+    const stream = gulp.src(config.src + '/**/*.js')
         .pipe(eslint(eslintConfig))
         .pipe(eslint.format())
-        .pipe(gulpIf((file) => file.eslint !== null && file.eslint.fixed, gulp.dest(program.src + '/')));
+        .pipe(gulpIf((file) => file.eslint !== null && file.eslint.fixed, gulp.dest(config.src)));
 
-    if(!program.watch)
+    if(!config.watch)
         stream.pipe(eslint.failAfterError());
 
     return stream;
 });
 
-gulp.task('lint-watch', ['lint-run'], (done) => gulp.watch(SRC_PATHES, ['lint-run']));
+gulp.task('lint-watch', ['lint-run'], (done) => gulp.watch(config.src + '/**/*.js', ['lint-run']));
 
 gulp.task('lint', (done) => {
-    if (program.watch)
+    if (config.watch)
         sequence('lint-watch', done);
     else
         sequence('lint-run', done);
