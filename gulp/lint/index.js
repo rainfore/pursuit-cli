@@ -11,6 +11,9 @@ let eslintConfig = require('../../.eslintrc.js');
 if(settings.fix)
     eslintConfig.fix = true;
 
+/**
+ * Lint Run
+ */
 gulp.task('lint-run', (done) => {
     const stream = gulp.src(settings.src + '/**/*.js')
         .pipe(eslint(eslintConfig))
@@ -22,12 +25,10 @@ gulp.task('lint-run', (done) => {
 
     return stream;
 });
-
 gulp.task('lint-watch', ['lint-run'], (done) => gulp.watch(settings.src + '/**/*.js', ['lint-run']));
 
-gulp.task('lint', (done) => {
-    if (settings.watch)
-        sequence('lint-watch', done);
-    else
-        sequence('lint-run', done);
-})
+/**
+ * Lint
+ */
+gulp.task('lint', [settings.watch ? 'lint-watch' : 'lint-run']);
+

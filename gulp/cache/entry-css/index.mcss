@@ -1,5 +1,0 @@
-@abstract 'mass/index.mcss';
-@abstract 'entry-css/var.mcss';
-@abstract 'entry-css/helper.mcss';
-@abstract 'entry-css/function.mcss';
-@abstract 'entry-css/font-awesome.css';

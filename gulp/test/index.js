@@ -1,32 +1,43 @@
 'use strict';
 
 const gulp = require('gulp');
+const rm = require('gulp-rimraf');
+const concatFilenames = require('gulp-concat-filenames');
 const Server = require('karma').Server;
 
-const concatImport = require('./gulp-concat-import.js');
+/**
+ * Test clean
+ */
+gulp.task('test-clean', (done) => {
+    return gulp.src('./test-reports', { read: false }).pipe(rm());
+});
 
 gulp.task('test-entry', (done) => {
     return gulp.src(settings.src + '/**/test/spec.js', { read: false })
-        .pipe(concatImport('test.js'))
+        .pipe(concatFilenames('test.js', {
+            template: (filename) => `import '${filename}';`,
+        }))
         .pipe(gulp.dest('./.pursuit-cache'));
 });
 
-
-gulp.task('test', ['test-entry'], (done) => {
-    const conf = { configFile: require.resolve('../../karma.conf.js') };
+/**
+ * Test
+ */
+gulp.task('test', ['test-clean', 'test-entry'], (done) => {
+    const config = { configFile: require.resolve('../../karma.conf.js') };
 
     if (settings.watch) {
-        settings.autoWatch = true;
-        settings.singleRun = false;
+        config.autoWatch = true;
+        config.singleRun = false;
     }
 
     if (settings.online) {
-        settings.singleRun = true;
-        settings.reporters = ['mocha', 'coverage', 'coveralls'];
+        config.singleRun = true;
+        config.reporters = ['mocha', 'coverage', 'coveralls'];
     }
 
     if (settings.verbose)
-        settings.webpackMiddleware = {};
+        config.webpackMiddleware = {};
 
-    new Server(conf, (code) => process.exit(code)).start();
+    new Server(config, (code) => process.exit(code)).start();
 });

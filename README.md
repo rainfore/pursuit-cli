@@ -14,23 +14,11 @@ CLI for the PURSUIT framework.
 - `pursuit test`：运行测试
 - `pursuit lint`：验证代码风格
     - `-f, --fix`：验证时自动修复
-
-- `-w, --watch`：监听文件变更
+- `-w, --watch`：监听文件变更。上面4种命令都可以配置该选项。
+- `-v, --verbose`：输出详细信息
+- `-V, --version`：当前版本
 
 集成命令：
 
-- `pursuit dev`：相当于`pursuit build+doc+lint --watch`，并且始终监听文件
-- `pursuit online`：相当于`pursuit build+test+lint`，并且永不监听文件
-
-
-
-
-
-<!-- - `pursuit watch`：监听js、mcss和md等文件，实时更新脚本、样式和文档。
-- `pursuit dist`：生成打包文件（会先清理`./dist`目录）。
-
-    - `-s, --single-run`：只运行一遍测试
-    - `-O, --online`：线上模式
- -->
-
-
+- `pursuit dev`：相当于`pursuit build+doc+lint --watch --fix`，始终监听文件，自动修复lint问题。
+- `pursuit online`：相当于`pursuit build+test+lint`，永不监听文件。
