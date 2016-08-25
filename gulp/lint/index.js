@@ -6,10 +6,8 @@ const fs = require('fs');
 const sequence = require('run-sequence');
 
 const eslint = require('gulp-eslint');
-// 让用户在项目中配置吧
-// const cwdLintConfigPath = process.cwd() + '/.eslintrc.js';
-// const eslintConfig = fs.existsSync(cwdLintConfigPath) ? {} : require('eslint-config-rgui/loose');
-const eslintConfig = {};
+const cwdLintConfigPath = process.cwd() + '/.eslintrc.js';
+const eslintConfig = fs.existsSync(cwdLintConfigPath) ? {} : require('eslint-config-rgui/loose.gulp.js');
 
 if(settings.fix)
     eslintConfig.fix = true;

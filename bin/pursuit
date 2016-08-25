@@ -26,11 +26,11 @@ if (!command)
 if (command === 'init')
     return;
 
-// if(!fs.existsSync(process.cwd() + '/package.json')) {
-//     console.error('error: Not a npm package');
-//     console.error('Please `cd` into a npm package directory.');
-//     return;
-// }
+if(!fs.existsSync(process.cwd() + '/package.json')) {
+    console.error('error: Not a npm package');
+    console.error('Please `cd` into a pursuit project.');
+    return;
+}
 
 /**
  * 处理配置
@@ -80,6 +80,8 @@ else if (command.startsWith('lint'))
     require('../gulp/lint/index.js');
 else if (command.startsWith('test'))
     require('../gulp/test/index.js');
+else if (command.startsWith('icon'))
+    require('../gulp/icon/index.js');
 else
     require('../gulpfile.js');
 

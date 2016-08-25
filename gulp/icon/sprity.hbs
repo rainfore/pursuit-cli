@@ -1,0 +1,28 @@
+/* 自动生成，请直接使用，不要手动修改 */
+
+{{#each layouts}}
+{{#each sprites}}
+{{#if dpi}}
+@media (-webkit-min-device-pixel-ratio: {{ratio}}), (min-resolution: {{dpi}}dpi) {
+{{/if}}
+.{{cssesc ../classname}} {
+    display: inline-block;
+    background-image: url('{{escimage url}}');
+    {{#if dpi}}
+    background-size: {{baseWidth}}px {{baseHeight}}px;
+    {{/if}}
+}
+{{#if dpi}}
+}
+{{/if}}
+{{/each}}
+
+{{#each layout.items}}
+.{{../classname}}-{{meta.name}} {
+    background-position: -{{baseDim x}}px -{{baseDim y}}px;
+    width: {{baseDim width}}px;
+    height: {{baseDim height}}px;
+}
+{{/each}}
+
+{{/each}}

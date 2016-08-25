@@ -18,7 +18,7 @@ const webpackConf = require('../../webpack.conf.js');
 // @TODO: JS和MCSS流程统一
 
 /**
- * Clean dest files
+ * Build Clean
  */
 gulp.task('build-clean', (done) => {
     return gulp.src(settings.dest, { read: false }).pipe(rm());
