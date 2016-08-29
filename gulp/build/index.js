@@ -53,13 +53,13 @@ gulp.task('build-js', (done) => {
         webpackConfig.devtool = 'eval';
     }
 
-    const stream = gulp.src(settings.src + '/page/**/index.js')
+    let stream = gulp.src(settings.src + '/page/**/index.js')
         .pipe(fixEntry(webpackConfig))
         .pipe(webpack(webpackConfig))
         .pipe(gulp.dest(settings.dest + '/js'));
 
     if (settings.compress || settings.online) {
-        stream.pipe(rename({ suffix: '.min' }))
+        stream = stream.pipe(rename({ suffix: '.min' }))
         .pipe(uglify())
         .pipe(gulp.dest(settings.dest + '/js'));
     }
@@ -72,7 +72,7 @@ gulp.task('build-js-watch', ['build-js']);
  * Build CSS
  */
 gulp.task('build-css', (done) => {
-    const stream = gulp.src(settings.src + '/page/**/index.mcss')
+    let stream = gulp.src(settings.src + '/page/**/index.mcss')
         .pipe(mcss({
             pathes: [__dirname + '/../../node_modules/mass', './node_modules'],
             importCSS: true,
@@ -81,7 +81,7 @@ gulp.task('build-css', (done) => {
         .pipe(gulp.dest(settings.dest + '/css'));
 
     if (settings.compress || settings.online) {
-        stream.pipe(rename({suffix: '.min'}))
+        stream = stream.pipe(rename({suffix: '.min'}))
         .pipe(minifycss())
         .pipe(gulp.dest('./' + settings.dest + '/css'));
     }

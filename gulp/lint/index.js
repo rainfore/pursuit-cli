@@ -6,8 +6,8 @@ const fs = require('fs');
 const sequence = require('run-sequence');
 
 const eslint = require('gulp-eslint');
-const cwdLintConfigPath = process.cwd() + '/.eslintrc.js';
-const eslintConfig = fs.existsSync(cwdLintConfigPath) ? {} : require('eslint-config-rgui/loose.gulp.js');
+const eslintConfig = {};
+const eslintReg = /^\.eslintrc(\.js|\.yaml|\.yml|\.json|)$/;
 
 if(settings.fix)
     eslintConfig.fix = true;
@@ -16,6 +16,11 @@ if(settings.fix)
  * Lint Run
  */
 gulp.task('lint-run', (done) => {
+    if (!fs.readdirSync(process.cwd()).some((filename) => eslintReg.test(filename))) {
+        console.log('Cannot find `.eslintrc` file, and skip `lint` task');
+        return done();
+    }
+
     let stream = gulp.src(settings.src + '/**/*.js')
         .pipe(eslint(eslintConfig))
         .pipe(eslint.format());

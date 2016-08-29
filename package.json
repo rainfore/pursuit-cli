@@ -48,7 +48,6 @@
     "gulp-all": "^1.1.0",
     "gulp-concat-filenames": "rainfore/gulp-concat-filenames",
     "gulp-eslint": "^3.0.0",
-    "gulp-file": "^0.3.0",
     "gulp-fontcustom": "^0.1.2",
     "gulp-if": "^2.0.1",
     "gulp-minify-css": "^1.2.4",
