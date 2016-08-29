@@ -11,4 +11,5 @@ require('./gulp/icon');
 
 gulp.task('dev', ['build', 'lint', 'doc']);
 gulp.task('clean', ['build-clean', 'doc-clean', 'test-clean', 'icon-clean']);
-gulp.task('online', () => sequence('build', 'test', 'lint'));
+gulp.task('online', (done) =>
+    sequence('clean', 'icon', 'build', 'test', 'lint', done));

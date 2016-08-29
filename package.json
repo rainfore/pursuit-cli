@@ -1,7 +1,7 @@
 {
   "name": "pursuit-cli",
   "description": "CLI for the PURSUIT framework.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Rainfore <rainforest92@126.com>",
   "bin": {
     "pursuit": "./bin/pursuit"
@@ -46,8 +46,9 @@
     "expect.js": "^0.3.1",
     "gulp": "^3.9.1",
     "gulp-all": "^1.1.0",
-    "gulp-concat-filenames": "^1.1.1",
+    "gulp-concat-filenames": "rainfore/gulp-concat-filenames",
     "gulp-eslint": "^3.0.0",
+    "gulp-file": "^0.3.0",
     "gulp-fontcustom": "^0.1.2",
     "gulp-if": "^2.0.1",
     "gulp-minify-css": "^1.2.4",

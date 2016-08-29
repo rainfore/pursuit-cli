@@ -16,13 +16,15 @@ if(settings.fix)
  * Lint Run
  */
 gulp.task('lint-run', (done) => {
-    const stream = gulp.src(settings.src + '/**/*.js')
+    let stream = gulp.src(settings.src + '/**/*.js')
         .pipe(eslint(eslintConfig))
-        .pipe(eslint.format())
-        .pipe(gulpIf((file) => file.eslint !== null && file.eslint.fixed, gulp.dest(settings.src)));
+        .pipe(eslint.format());
+
+    if(settings.fix)
+        stream = stream.pipe(gulpIf((file) => file.eslint !== null && file.eslint.fixed, gulp.dest(settings.src)));
 
     if(!settings.watch)
-        stream.pipe(eslint.failAfterError());
+        stream = stream.pipe(eslint.failAfterError());
 
     return stream;
 });

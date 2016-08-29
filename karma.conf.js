@@ -7,7 +7,7 @@ let preprocessors = {};
 preprocessors[filePath] = 'webpack';
 
 let webpackConfig = require('./webpack.conf.js')();
-webpackConfig.module.loaders.push({ test: /\.js$/, exclude: /(test|node_modules)\//, loader: require.resolve('isparta-loader') });
+webpackConfig.module.loaders.push({ test: /\.js$/, exclude: /(test|node_modules|pursuit-cache)[\\\/]/, loader: require.resolve('isparta-loader') });
 
 module.exports = function(config) {
     config.set(Object.assign({

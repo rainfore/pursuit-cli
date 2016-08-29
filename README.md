@@ -31,6 +31,6 @@ CLI for the PURSUIT framework.
 
 集成命令：
 
-- `pursuit dev`：构建项目+生成文档+验证代码风格，始终监听文件，自动修复lint问题。相当于`pursuit build+doc+lint --watch --fix`。
-- `pursuit clean`：手动清理所有pursuit命令生成的文件。相当于`pursuit build-clean+doc-clean+test-clean+icon-clean`。
-- `pursuit online`：构建项目+运行测试+验证代码风格，永不监听文件。相当于`pursuit build+test+lint`。
+- `pursuit dev`：构建项目+生成文档+验证代码风格，始终监听文件，自动修复lint问题。相当于`pursuit build,doc,lint --watch --fix`。由于`icon`命令使用频率不高，因此暂不加入`dev`命令中。
+- `pursuit clean`：手动清理所有pursuit命令生成的文件。相当于`pursuit build-clean,doc-clean,test-clean,icon-clean`。
+- `pursuit online`：清理文件->生成图标->构建项目->运行测试->验证代码风格，永不监听文件。相当于`pursuit clean->icon->build->test->lint`。

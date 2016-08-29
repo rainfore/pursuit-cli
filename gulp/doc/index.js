@@ -11,6 +11,7 @@ const build = require('./gulp-build.js');
  */
 gulp.task('doc-clean', (done) => {
     // return gulp.src('./doc', {read: false}).pipe(rm());
+    done();
 });
 
 /**
