@@ -12,6 +12,8 @@ const fontcustom = require('gulp-fontcustom');
 
 // @TODO: 让用户可以直接配置到dest目录下
 const cssPath = settings.src + '/icons/css';
+const pngPath = settings.src + '/icons/png';
+const svgPath = settings.src + '/icons/svg';
 
 /**
  * Icon Clean
@@ -24,8 +26,6 @@ gulp.task('icon-clean', () => {
  * Icon Sprite
  */
 gulp.task('icon-sprite', () => {
-    const pngPath = settings.src + '/icons/png';
-
     return all(fs.readdirSync(pngPath).filter((folder) => folder[0] !== '.').map((folder) => {
         return sprity.src({
             src: `${pngPath}/${folder}/*.png`,
@@ -39,13 +39,12 @@ gulp.task('icon-sprite', () => {
         }).pipe(gulpIf('*.css', gulp.dest(cssPath), gulp.dest(settings.dest + '/img')));
     }));
 });
+gulp.task('icon-sprite-watch', ['icon-sprite'], (done) => gulp.watch(pngPath, ['icon-sprite']));
 
 /**
  * Icon Font
  */
 gulp.task('icon-font', () => {
-    const svgPath = settings.src + '/icons/svg';
-
     return all(fs.readdirSync(svgPath).filter((folder) => folder[0] !== '.').map((folder) => {
         return gulp.src(`${svgPath}/${folder}`)
             .pipe(fontcustom({
@@ -58,8 +57,9 @@ gulp.task('icon-font', () => {
             .pipe(gulpIf('*.css', gulp.dest(cssPath), gulp.dest(settings.dest + '/fonts')));
     }));
 });
+gulp.task('icon-font-watch', ['icon-font'], (done) => gulp.watch(svgPath, ['icon-font']));
 
-// iconfont插件不好用，会使图标有[Bubbling](https://github.com/nfroidure/svgicons2svgfont/issues/57)
+// iconfont插件不好用，生成的图标会有[Bubbling](https://github.com/nfroidure/svgicons2svgfont/issues/57)问题
 // const iconfont = require('gulp-iconfont');
 // const iconfontCSS = require('gulp-iconfont-css');
 
@@ -86,6 +86,8 @@ gulp.task('icon-font', () => {
 /**
  * Icon
  */
-gulp.task('icon', (done) => {
-    sequence('icon-clean', ['icon-sprite', 'icon-font'], done);
-});
+if (settings.watch)
+    gulp.task('icon', ['icon-sprite-watch', 'icon-font-watch']);
+else
+    gulp.task('icon', ['icon-sprite', 'icon-font']);
+

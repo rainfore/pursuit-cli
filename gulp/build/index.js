@@ -93,9 +93,8 @@ gulp.task('build-css-watch', ['build-css'], (done) => gulp.watch(settings.src + 
 /**
  * Build
  */
-gulp.task('build', (done) => {
-    if (settings.watch)
-        sequence('build-clean', ['build-copy-watch', 'build-page-watch', 'build-js-watch', 'build-css-watch'], done);
-    else
-        sequence('build-clean', ['build-copy', 'build-page', 'build-js', 'build-css'], done);
-});
+if (settings.watch)
+    gulp.task('build', ['build-copy-watch', 'build-page-watch', 'build-js-watch', 'build-css-watch']);
+else
+    gulp.task('build', ['build-copy', 'build-page', 'build-js', 'build-css']);
+

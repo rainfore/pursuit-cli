@@ -23,7 +23,7 @@ gulp.task('test-entry', (done) => {
 /**
  * Test
  */
-gulp.task('test', ['test-clean', 'test-entry'], (done) => {
+gulp.task('test', ['test-entry'], (done) => {
     const config = { configFile: require.resolve('../../karma.conf.js') };
 
     if (settings.watch) {

@@ -9,9 +9,9 @@ const build = require('./gulp-build.js');
 /**
  * Doc clean
  */
-// gulp.task('doc-clean', (done) => {
-//     return gulp.src('./doc', {read: false}).pipe(rm());
-// });
+gulp.task('doc-clean', (done) => {
+    // return gulp.src('./doc', {read: false}).pipe(rm());
+});
 
 /**
  * Doc build
