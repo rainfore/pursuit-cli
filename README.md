@@ -2,6 +2,17 @@
 
 CLI for the PURSUIT framework.
 
+[![NPM Version][npm-img]][npm-url]
+[![Dependencies][david-img]][david-url]
+[![NPM Download][download-img]][download-url]
+
+[npm-img]: http://img.shields.io/npm/v/pursuit-cli.svg?style=flat-square
+[npm-url]: http://npmjs.org/package/pursuit-cli
+[david-img]: http://img.shields.io/david/rainfore/pursuit-cli.svg?style=flat-square
+[david-url]: https://david-dm.org/rainfore/pursuit-cli
+[download-img]: https://img.shields.io/npm/dm/pursuit-cli.svg?style=flat-square
+[download-url]: https://npmjs.org/package/pursuit-cli
+
 ## Commands
 
 - `pursuit help`：查看帮助
@@ -25,12 +36,12 @@ CLI for the PURSUIT framework.
     gem install fontcustom
     ```
 
-- `-w, --watch`：监听文件变更（以上命令默认不会监听文件变更），运行时都可以配置此选项。
+- `-w, --watch`：监听文件变更。以上命令都可以配置此选项（默认不会监听）。
 - `-v, --verbose`：输出详细信息
 - `-V, --version`：当前版本
 
 集成命令：
 
-- `pursuit dev`：构建项目+生成文档+验证代码风格，始终监听文件，自动修复lint问题。相当于`pursuit build,doc,lint --watch --fix`。由于`icon`命令使用频率不高，因此暂不加入`dev`命令中。
+- `pursuit dev`：构建项目+生成文档+验证代码风格，始终监听文件，自动修复lint问题。相当于`pursuit build,doc,lint --watch --fix`。考虑到`icon`命令使用频率不高，并且某些开发者在Windows下无法使用，所以暂不加入`dev`命令中。
 - `pursuit clean`：手动清理所有pursuit命令生成的文件（以上命令默认不会清理生成的文件）。相当于`pursuit build-clean,doc-clean,test-clean,icon-clean`。
 - `pursuit online`：清理文件->生成图标->构建项目->运行测试->验证代码风格，永不监听文件。相当于`pursuit clean->icon->build->test->lint`。

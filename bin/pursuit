@@ -17,6 +17,7 @@ program
     .option('-O, --online-mode', 'online mode')
     .option('-v, --verbose', 'verbose')
     .option('-f, --fix', 'fix when lint')
+    .option('--page-exts <page-exts>', 'pages extensions. The default is `html,ejs,ftl`')
     .parse(process.argv);
 program.online = program.onlineMode;
 
@@ -44,6 +45,7 @@ global.settings = {
     fix: false,
     src: '.',
     dest: '.',
+    pageExts: ['html', 'ejs', 'ftl'],
 };
 
 // 合并cwd路径下的配置
@@ -55,10 +57,11 @@ if (fs.existsSync(cwdConfigPath)) {
 
 // 合并program的配置
 for(let key in settings) {
-    if(settings.hasOwnProperty(key) && program[key] !== undefined)
+    if (settings.hasOwnProperty(key) && program[key] !== undefined)
         settings[key] = program[key];
 }
 
+// 处理集成命令
 if(command === 'dev') {
     settings.watch = true;
     settings.fix = true;
@@ -66,6 +69,10 @@ if(command === 'dev') {
     settings.watch = false;
     settings.online = true;
 }
+
+// 处理str2arr相关
+if (typeof settings.pageExts === 'string')
+    settings.pageExts = settings.pageExts.split(',');
 
 /**
  * 引入gulp
