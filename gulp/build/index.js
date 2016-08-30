@@ -42,6 +42,7 @@ gulp.task('build-page', (done) => {
         .pipe(flatPath());
 
     if(settings.noCache || settings.online) {
+        // 添加版本号
         const version = new Date().toJSON().replace(/[^\d]/g, '');
         const pages = fs.readdirSync(settings.src + '/page').filter((dirname) => dirname[0] !== '.').join('|');
         console.log(pages);

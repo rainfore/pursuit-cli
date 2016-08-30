@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('fs');
+const path = require('path');
 const gulp = require('gulp');
 const sequence = require('run-sequence');
 const rm = require('gulp-rimraf');
@@ -25,37 +26,52 @@ gulp.task('icon-clean', () => {
 /**
  * Icon Sprite
  */
-gulp.task('icon-sprite', () => {
-    return all(fs.readdirSync(pngPath).filter((folder) => folder[0] !== '.').map((folder) => {
-        return sprity.src({
-            src: `${pngPath}/${folder}/*.png`,
-            style: `i-${folder}.css`,
-            cssPath: '../img',
-            name: `i-${folder}`,
-            margin: 0,
-            prefix: `i-${folder}`,
-            'style-indent-size': 4,
-            template: __dirname + '/sprity.hbs',
-        }).pipe(gulpIf('*.css', gulp.dest(cssPath), gulp.dest(settings.dest + '/img')));
-    }));
+gulp.task('icon-sprite', (done) => {
+    if(!fs.existsSync(pngPath)) {
+        console.log('Cannot find `src/icons/png` directory, and skip `icon-sprite` task');
+        return done();
+    }
+
+    return all(fs.readdirSync(pngPath)
+        .filter((folder) => folder[0] !== '.' && fs.statSync(path.join(pngPath, folder)).isDirectory())
+        .map((folder) => {
+            return sprity.src({
+                src: `${pngPath}/${folder}/*.png`,
+                style: `i-${folder}.css`,
+                cssPath: '../img',
+                name: `i-${folder}`,
+                margin: 0,
+                prefix: `i-${folder}`,
+                'style-indent-size': 4,
+                template: __dirname + '/sprity.hbs',
+            })
+            .pipe(gulpIf('*.css', gulp.dest(cssPath), gulp.dest(settings.dest + '/img')));
+        }));
 });
 gulp.task('icon-sprite-watch', ['icon-sprite'], (done) => gulp.watch(pngPath, ['icon-sprite']));
 
 /**
  * Icon Font
  */
-gulp.task('icon-font', () => {
-    return all(fs.readdirSync(svgPath).filter((folder) => folder[0] !== '.').map((folder) => {
-        return gulp.src(`${svgPath}/${folder}`)
-            .pipe(fontcustom({
-                font_name: `i-${folder}`,
-                'css-selector': `.i-${folder}-{{glyph}}`,
-            }))
-            // 替换fontcustom生成CSS里的一些问题
-            .pipe(gulpIf('*.css', replace(/url\("\.\//g, 'url("../fonts/')))
-            .pipe(gulpIf('*.css', replace(/\[data-icon\]/g, `.i-${folder}`)))
-            .pipe(gulpIf('*.css', gulp.dest(cssPath), gulp.dest(settings.dest + '/fonts')));
-    }));
+gulp.task('icon-font', (done) => {
+    if(!fs.existsSync(svgPath)) {
+        console.log('Cannot find `src/icons/svg` directory, and skip `icon-font` task');
+        return done();
+    }
+
+    return all(fs.readdirSync(svgPath)
+        .filter((folder) => folder[0] !== '.' && fs.statSync(path.join(svgPath, folder)).isDirectory())
+        .map((folder) => {
+            return gulp.src(`${svgPath}/${folder}`)
+                .pipe(fontcustom({
+                    font_name: `i-${folder}`,
+                    'css-selector': `.i-${folder}-{{glyph}}`,
+                }))
+                // 替换fontcustom生成CSS里的一些问题
+                .pipe(gulpIf('*.css', replace(/url\("\.\//g, 'url("../fonts/')))
+                .pipe(gulpIf('*.css', replace(/\[data-icon\]/g, `.i-${folder}`)))
+                .pipe(gulpIf('*.css', gulp.dest(cssPath), gulp.dest(settings.dest + '/fonts')));
+        }));
 });
 gulp.task('icon-font-watch', ['icon-font'], (done) => gulp.watch(svgPath, ['icon-font']));
 
