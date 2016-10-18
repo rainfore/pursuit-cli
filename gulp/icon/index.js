@@ -3,13 +3,15 @@
 const fs = require('fs');
 const path = require('path');
 const gulp = require('gulp');
-const sequence = require('run-sequence');
 const rm = require('gulp-rimraf');
 const replace = require('gulp-replace');
 const all = require('gulp-all');
 const gulpIf = require('gulp-if');
-const sprity = require('sprity');
-const fontcustom = require('gulp-fontcustom');
+const spritesmith = require('gulp.spritesmith');
+const buffer = require('vinyl-buffer');
+const imagemin = require('gulp-imagemin');
+const cssURLVersion = require('gulp-css-urlversion');
+const fontcustom = require('gulp_fontcustom');
 
 // @TODO: 让用户可以直接配置到dest目录下
 const cssPath = settings.src + '/icons/css';
@@ -35,23 +37,47 @@ gulp.task('icon-sprite', (done) => {
     return all(fs.readdirSync(pngPath)
         .filter((folder) => folder[0] !== '.' && fs.statSync(path.join(pngPath, folder)).isDirectory())
         .map((folder) => {
-            return sprity.src({
-                src: `${pngPath}/${folder}/*.png`,
-                style: `i-${folder}.css`,
-                cssPath: '../img',
-                name: `i-${folder}`,
-                margin: 0,
-                prefix: `i-${folder}`,
-                'style-indent-size': 4,
-                template: __dirname + '/sprity.hbs',
-            })
-            .pipe(gulpIf('*.css', gulp.dest(cssPath), gulp.dest(settings.dest + '/img')));
+            const name = 'i-' + folder;
+            const options = {
+                cssSpritesheetName: name,
+                imgName: name + '.png',
+                cssName: name + '.css',
+                imgPath: `../img/${name}.png`,
+                cssTemplate: __dirname + '/spritesmith.hbs',
+            };
+
+            const retina = fs.readdirSync(pngPath + '/' + folder).some((file) => file.endsWith('@2x.png'));
+            if (retina) {
+                Object.assign(options, {
+                    retinaSrcFilter: `${pngPath}/${folder}/*@2x.png`,
+                    retinaImgName: name + '@2x.png',
+                    retinaImgPath: `../img/${name}@2x.png`,
+                });
+            }
+
+            const stream = gulp.src(`${pngPath}/${folder}/*.png`)
+                .pipe(spritesmith(options));
+
+            return new Promise((resolve, reject) => {
+                stream.img
+                    .pipe(buffer())
+                    .pipe(imagemin())
+                    .pipe(gulp.dest(settings.dest + '/img'))
+                    .on('end', () =>
+                stream.css
+                    .pipe(cssURLVersion({ baseDir: settings.dest + '/img' }))
+                    .pipe(gulp.dest(cssPath))
+                    .on('end', () =>
+                resolve()));
+            });
         }));
 });
 gulp.task('icon-sprite-watch', ['icon-sprite'], (done) => gulp.watch(pngPath, ['icon-sprite']));
 
 /**
  * Icon Font
+ * gulp-iconfont插件不好用，生成的图标会有[Bubbling](https://github.com/nfroidure/svgicons2svgfont/issues/57)问题
+ * 但fontcustom只能在非Windows系统下使用
  */
 gulp.task('icon-font', (done) => {
     if(!fs.existsSync(svgPath)) {
@@ -66,38 +92,13 @@ gulp.task('icon-font', (done) => {
                 .pipe(fontcustom({
                     font_name: `i-${folder}`,
                     'css-selector': `.i-${folder}-{{glyph}}`,
+                    preprocessor_path: '../fonts',
+                    templates: 'preview ' + __dirname + '/fontcustom.css',
                 }))
-                // 替换fontcustom生成CSS里的一些问题
-                .pipe(gulpIf('*.css', replace(/url\("\.\//g, 'url("../fonts/')))
-                .pipe(gulpIf('*.css', replace(/\[data-icon\]/g, `.i-${folder}`)))
                 .pipe(gulpIf('*.css', gulp.dest(cssPath), gulp.dest(settings.dest + '/fonts')));
         }));
 });
 gulp.task('icon-font-watch', ['icon-font'], (done) => gulp.watch(svgPath, ['icon-font']));
-
-// iconfont插件不好用，生成的图标会有[Bubbling](https://github.com/nfroidure/svgicons2svgfont/issues/57)问题
-// const iconfont = require('gulp-iconfont');
-// const iconfontCSS = require('gulp-iconfont-css');
-
-/* gulp.task('icon-font', () => {
-    const svgPath = settings.src + '/icons/svg';
-
-    return all(fs.readdirSync(svgPath).map((folder) => {
-        return gulp.src(svgPath + '/' + folder + '/*.svg')
-            .pipe(iconfontCssAndTemplate({
-                fontName: folder,
-                cssClass: `i-${folder}`,
-                cssTargetPath: `${folder}.css`,
-            }))
-            .pipe(iconfont({
-                fontName: folder,
-                formats: ['ttf', 'eot', 'woff', 'svg'],
-                prependUnicode: true,
-                normalize: true,
-            }))
-            .pipe(gulp.dest(settings.src + '/icons/css'));
-    }));
-}); */
 
 /**
  * Icon

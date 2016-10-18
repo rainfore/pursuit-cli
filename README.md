@@ -2,6 +2,12 @@
 
 CLI for the PURSUIT framework.
 
+> PURSUIT: A Fast Front-end Framework Based on Regular UI.
+>
+> web`P`ack + g`U`lp + `R`egular + mcs`S` + rg`UI` + s`T`ateman
+> 
+> babel + es6 + karma + mocha + expect.js
+
 [![NPM Version][npm-img]][npm-url]
 [![Dependencies][david-img]][david-url]
 [![NPM Download][download-img]][download-url]
@@ -12,6 +18,12 @@ CLI for the PURSUIT framework.
 [david-url]: https://david-dm.org/rainfore/pursuit-cli
 [download-img]: https://img.shields.io/npm/dm/pursuit-cli.svg?style=flat-square
 [download-url]: https://npmjs.org/package/pursuit-cli
+
+## Install
+
+```shell
+npm install -g pursuit-cli
+```
 
 ## Commands
 

@@ -46,10 +46,11 @@
     "expect.js": "^0.3.1",
     "gulp": "^3.9.1",
     "gulp-all": "^1.1.0",
-    "gulp-concat-filenames": "rainfore/gulp-concat-filenames",
+    "gulp-concat-filenames": "^1.2.0",
+    "gulp-css-urlversion": "rainfore/gulp-css-urlversion",
     "gulp-eslint": "^3.0.0",
-    "gulp-fontcustom": "^0.1.2",
     "gulp-if": "^2.0.1",
+    "gulp-imagemin": "^3.0.3",
     "gulp-minify-css": "^1.2.4",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
@@ -58,6 +59,8 @@
     "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.9",
     "gulp-webpack": "^1.5.0",
+    "gulp.spritesmith": "^6.2.1",
+    "gulp_fontcustom": "^0.1.1",
     "gulp_mcss": "^0.3.0",
     "isparta-loader": "^2.0.0",
     "karma": "^1.1.0",
@@ -78,7 +81,7 @@
     "regularjs": "0.4.3",
     "rgl-loader": "^0.4.0",
     "run-sequence": "^1.2.1",
-    "sprity": "rainfore/sprity",
-    "through2": "^2.0.1"
+    "through2": "^2.0.1",
+    "vinyl-buffer": "^1.0.0"
   }
 }

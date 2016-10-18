@@ -45,12 +45,11 @@ gulp.task('build-page', (done) => {
         // 添加版本号
         const version = new Date().toJSON().replace(/[^\d]/g, '');
         const pages = fs.readdirSync(settings.src + '/page').filter((dirname) => dirname[0] !== '.').join('|');
-        console.log(pages);
-        const cssReg = new RegExp(`(<link.*?href=.*?css\\/(?:${pages})\\.css)(.*?>)`, 'g');
-        const jsReg = new RegExp(`(<script.*?src=.*?js\\/(?:${pages})\\.js)(.*?>)`, 'g');
+        const cssReg = new RegExp(`(<link.+?href=.+?css\\/(?:${pages})\\.css)(.+?>)`, 'g');
+        const jsReg = new RegExp(`(<script.+?src=.+?js\\/(?:${pages})\\.js)(.+?>)`, 'g');
 
-        stream.pipe(replace(cssReg, (m, s1, s2) => `${s1}?${version}${s2}`))
-              .pipe(replace(jsReg, (m, s1, s2) => `${s1}?${version}${s2}`));
+        stream.pipe(replace(cssReg, `$1?${version}$2`))
+              .pipe(replace(jsReg, `$1?${version}$2`));
     }
 
     return stream.pipe(gulp.dest(settings.dest));

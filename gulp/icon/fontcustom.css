@@ -1,0 +1,29 @@
+/*
+  Icon Font: <%= font_name %>
+*/
+
+<% font_hash = (@manifest.get :checksum)[:current][0,32] %>
+
+@font-face {
+  font-family: "<%= font_name %>";
+  src: url("<%= @font_path_alt %>.eot?v=<%= font_hash %>");
+  src: url("<%= @font_path_alt %>.eot?v=<%= font_hash %>#iefix") format("embedded-opentype"),
+       url("<%= @font_path_alt %>.woff?v=<%= font_hash %>") format("woff"),
+       url("<%= @font_path_alt %>.ttf?v=<%= font_hash %>") format("truetype"),
+       url("<%= @font_path_alt %>.svg?v=<%= font_hash %>#svg1") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "<%= font_name %>";
+    src: url("<%= @font_path_alt %>.svg?v=<%= font_hash %>#svg1") format("svg");
+  }
+}
+
+<%= @options[:css_selector].sub('-{{glyph}}', '') %> {
+<%= glyph_properties %>
+}
+
+<%= glyphs %>
