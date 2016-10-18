@@ -65,7 +65,7 @@ gulp.task('icon-sprite', (done) => {
                     .pipe(gulp.dest(settings.dest + '/img'))
                     .on('end', () =>
                 stream.css
-                    .pipe(cssURLVersion({ baseDir: settings.dest + '/img' }))
+                    .pipe(cssURLVersion({ baseDir: settings.dest + '/img' })) // @TODO: 这个插件一般般
                     .pipe(gulp.dest(cssPath))
                     .on('end', () =>
                 resolve()));
@@ -93,7 +93,7 @@ gulp.task('icon-font', (done) => {
                     font_name: `i-${folder}`,
                     'css-selector': `.i-${folder}-{{glyph}}`,
                     preprocessor_path: '../fonts',
-                    templates: 'preview ' + __dirname + '/fontcustom.css',
+                    templates: 'preview ' + __dirname + '/fontcustom.css', // @TODO: 这个路径有潜在风险
                 }))
                 .pipe(gulpIf('*.css', gulp.dest(cssPath), gulp.dest(settings.dest + '/fonts')));
         }));

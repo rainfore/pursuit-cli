@@ -15,7 +15,7 @@
   font-style: normal;
 }
 
-@media screen and (-webkit-min-device-pixel-ratio:0) {
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
   @font-face {
     font-family: "<%= font_name %>";
     src: url("<%= @font_path_alt %>.svg?v=<%= font_hash %>#svg1") format("svg");

@@ -37,10 +37,9 @@ npm install -g pursuit-cli
 - `pursuit test`：运行测试。需要将单元测试写在每个组件的`test`目录中。
 - `pursuit lint`：验证代码风格。需要在运行目录中配置`.eslintrc`文件。
     - `-f, --fix`：验证时自动修复
-- `pursuit icon`：生成雪碧图（CSS Sprites）和字体图标（Font Icons）。需要将雪碧图的原始图标放在`src/icons/png`目录中，运行命令后，雪碧图会生成在`dest/img`目录中，对应的CSS会生成在`src/icons/css`目录中；需要将字体的原始图标放置在`src/icons/svg`目录中，运行命令后，字体和预览网页会生成在`dest/fonts`目录中，对应的CSS会生成在`src/icons/css`目录中。
-    目前的已知问题：
-    - 只支持从一个svg文件夹生成字体图标；
-    - 只支持在Mac和Linux环境下生成字体图标，并且需要安装以下包，详见：[FontCustom](https://github.com/FontCustom/fontcustom/#installation)；
+- `pursuit icon`：生成雪碧图（CSS Sprites）和字体图标（Font Icons），考虑要支持大型项目，因此按照多组图标的生成。在`src/icons/png`目录中的每一个文件夹为一组雪碧图的原始图标，在`src/icons/svg`目录中的每一个文件夹为一组字体图标的原始图标，生成的文件名和选择器都按此文件夹命名。比如将一组雪碧图的原始图标放在`src/icons/png/sprite/`目录中，运行命令后，雪碧图会生成为`dest/img/i-sprite.png`，对应的CSS会生成为`src/icons/css/i-sprite.css`；将字体的原始图标放置在`src/icons/svg/font/`目录中，运行命令后，字体和预览网页会生成在`dest/fonts`目录中，对应的CSS会生成为`src/icons/css/i-font.css`。
+    - 雪碧图也支持Retina的@2x图，只需在`src/icons/png/{spriteName}/`中放入@1x图对应的@2x图即可。比如在`src/icons/png/sprite/`目录中有若干`*.png`，再放入对应2倍大小的`*@2x.png`图，数量一定要保持一致。
+    - 字体图标只支持在Mac和Linux环境下生成，并且需要安装以下包，详见：[FontCustom](https://github.com/FontCustom/fontcustom/#installation)；
     ```shell
     # On Mac
     brew install fontforge --with-python
