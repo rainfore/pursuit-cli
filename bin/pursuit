@@ -43,8 +43,8 @@ global.settings = {
     online: false,
     verbose: false,
     fix: false,
-    src: '.',
-    dest: '.',
+    src: 'src',
+    dest: 'dest',
     pageExts: ['html', 'ejs', 'ftl'],
 };
 

@@ -4,7 +4,7 @@ CLI for the PURSUIT framework.
 
 > PURSUIT: A Fast, Advanced and Componentized Front-end Framework, which integrated with:
 >
-> es6 + babel + web`P`ack + g`U`lp + `R`egular + mcs`S` + rg`UI` + eslin`T` + karma + mocha + expect.js + spritesmith + fontcustom + ...
+> es6 + babel + web`P`ack + g`U`lp + `R`egular + mcs`S` + rg`UI` + eslin`T` + stateman + karma + mocha + expect.js + spritesmith + fontcustom + ...
 
 [![NPM Version][npm-img]][npm-url]
 [![Dependencies][david-img]][david-url]
@@ -28,6 +28,7 @@ npm install -g pursuit-cli
 ```shell
 pursuit init demo
 cd demo
+npm install
 pursuit dev
 ```
 
