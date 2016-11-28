@@ -11,7 +11,7 @@ program
 
 const repo = program.args[0];
 if(!repo)
-    repo = pursuit;
+    repo = 'pursuit';
 
 const URL = 'https://github.com/rainfore/pursuit.git';
 
@@ -22,14 +22,3 @@ console.log(execSync([
     `git init`,
 ].join(';')) + '');
 process.chdir(repo);
-
-/*
-console.log(execSync(`mv sample ${program.components[0].lowerName}`) + '');
-
-// Replace
-let gulp = require('gulp');
-gulp.program = program;
-
-require('../gulp/replace/index.js');
-gulp.start('replace');
-*/

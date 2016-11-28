@@ -17,6 +17,8 @@ CLI for the PURSUIT framework.
 [download-img]: https://img.shields.io/npm/dm/pursuit-cli.svg?style=flat-square
 [download-url]: https://npmjs.org/package/pursuit-cli
 
+http://rainfore.me/pursuit is not only a home page for PURSUIT but also a simple demo built by PURSUIT.
+
 ## Install
 
 ```shell
