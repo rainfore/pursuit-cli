@@ -12,24 +12,28 @@
   },
   "license": "MIT",
   "keywords": [
+    "pursuit",
+    "frontend",
     "framework",
-    "fullstack",
+    "componentized",
     "webpack",
     "gulp",
     "regular",
     "mcss",
     "rgui",
-    "stateman"
+    "eslint"
   ],
   "tags": [
+    "pursuit",
+    "frontend",
     "framework",
-    "fullstack",
+    "componentized",
     "webpack",
     "gulp",
     "regular",
     "mcss",
     "rgui",
-    "stateman"
+    "eslint"
   ],
   "dependencies": {
     "babel-core": "^6.9.0",

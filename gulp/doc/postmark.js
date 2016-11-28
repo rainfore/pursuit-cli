@@ -20,7 +20,7 @@ function parse(content) {
     return examples;
 }
 
-exports.premark = function(content) {
+exports.postmark = function(content) {
     let result = {};
 
     let examples = parse(content);

@@ -12,7 +12,7 @@ let ejs = require('ejs');
 let babel = require('babel-core');
 let babelConfig = require('../../babelrc.js');
 let templates = require('./views.js');
-let premark = require('./premark.js');
+let postmark = require('./postmark.js');
 let markdown = require('./markdown.js');
 let jsAPI = require('./js-api.js');
 
@@ -49,7 +49,7 @@ module.exports = function(options) {
         let tpl = templates.head + '<div class="g-bd"><div class="g-bdc">' + templates.main + '</div></div>' + templates.foot;
 
         // 对markdown中的示例进行预处理
-        let result = premark.premark(data.content);
+        let result = postmark.postmark(data.content);
         try {
             data.script = babel.transform(result.script, babelConfig).code;
         } catch(e) {
