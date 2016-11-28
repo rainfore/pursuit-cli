@@ -10,7 +10,7 @@ const pkg = require('../package.json');
  */
 const program = require('commander');
 program
-    .usage('[options] <task>')
+    .usage('<task> [options]')
     .version(pkg.version)
     .command('init [options] <repo>', 'init a PURSUIT repo')
     .option('-w, --watch', 'watch')

@@ -1,7 +1,7 @@
 {
   "name": "pursuit-cli",
   "description": "CLI for the PURSUIT framework.",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "author": "Rainfore <rainforest92@126.com>",
   "bin": {
     "pursuit": "./bin/pursuit"
@@ -37,7 +37,7 @@
     "babel-plugin-transform-es3-member-expression-literals": "^6.8.0",
     "babel-plugin-transform-es3-property-literals": "^6.8.0",
     "babel-polyfill": "^6.9.1",
-    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-latest": "^6.16.0",
     "chalk": "^1.1.3",
     "codemirror-highlight": "^1.1.1",
     "commander": "^2.9.0",

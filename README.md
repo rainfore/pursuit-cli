@@ -2,11 +2,9 @@
 
 CLI for the PURSUIT framework.
 
-> PURSUIT: A Fast Front-end Framework Based on Regular UI.
+> PURSUIT: A Fast, Advanced and Componentized Front-end Framework, which integrated with:
 >
-> web`P`ack + g`U`lp + `R`egular + mcs`S` + rg`UI` + s`T`ateman
-> 
-> babel + es6 + karma + mocha + expect.js
+> es6 + babel + web`P`ack + g`U`lp + `R`egular + mcs`S` + rg`UI` + eslin`T` + karma + mocha + expect.js + spritesmith + fontcustom + ...
 
 [![NPM Version][npm-img]][npm-url]
 [![Dependencies][david-img]][david-url]
@@ -25,6 +23,14 @@ CLI for the PURSUIT framework.
 npm install -g pursuit-cli
 ```
 
+## QuickStart
+
+```shell
+pursuit init demo
+cd demo
+pursuit dev
+```
+
 ## Commands
 
 - `pursuit help`：查看帮助
@@ -37,8 +43,8 @@ npm install -g pursuit-cli
 - `pursuit test`：运行测试。需要将单元测试写在每个组件的`test`目录中。
 - `pursuit lint`：验证代码风格。需要在运行目录中配置`.eslintrc`文件。
     - `-f, --fix`：验证时自动修复
-- `pursuit icon`：生成雪碧图（CSS Sprites）和字体图标（Font Icons），考虑要支持大型项目，因此按照多组图标的生成。在`src/icons/png`目录中的每一个文件夹为一组雪碧图的原始图标，在`src/icons/svg`目录中的每一个文件夹为一组字体图标的原始图标，生成的文件名和选择器都按此文件夹命名。比如将一组雪碧图的原始图标放在`src/icons/png/sprite/`目录中，运行命令后，雪碧图会生成为`dest/img/i-sprite.png`，对应的CSS会生成为`src/icons/css/i-sprite.css`；将字体的原始图标放置在`src/icons/svg/font/`目录中，运行命令后，字体和预览网页会生成在`dest/fonts`目录中，对应的CSS会生成为`src/icons/css/i-font.css`。
-    - 雪碧图也支持Retina的@2x图，只需在`src/icons/png/{spriteName}/`中放入@1x图对应的@2x图即可。比如在`src/icons/png/sprite/`目录中有若干`*.png`，再放入对应2倍大小的`*@2x.png`图，数量一定要保持一致。
+- `pursuit icon`：生成雪碧图（CSS Sprites）和字体图标（Font Icons），为了支持大型项目，所以按照多组图标来生成。在`src/icons/png`目录中的每一个文件夹为一组雪碧图的原始图标，在`src/icons/svg`目录中的每一个文件夹为一组字体图标的原始图标，生成的文件名和选择器都按此文件夹命名。比如将一组雪碧图的原始图标放在`src/icons/png/sprite/`目录中，运行命令后，雪碧图会生成为`dest/img/i-sprite.png`，对应的CSS会生成为`src/icons/css/i-sprite.css`；将字体的原始图标放置在`src/icons/svg/font/`目录中，运行命令后，字体和预览网页会生成在`dest/fonts`目录中，对应的CSS会生成为`src/icons/css/i-font.css`。
+    - 雪碧图也支持Retina@2x图，只需在每组原始图标文件夹中放入与@1x图对应的@2x图即可。比如在`src/icons/png/sprite/`目录中有若干`*.png`，再放入对应2倍大小的`*@2x.png`图，数量一定要保持一致。
     - 字体图标只支持在Mac和Linux环境下生成，并且需要安装以下包，详见：[FontCustom](https://github.com/FontCustom/fontcustom/#installation)；
     ```shell
     # On Mac
