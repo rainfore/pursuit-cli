@@ -1,7 +1,7 @@
 {
   "name": "pursuit-cli",
   "description": "CLI for the PURSUIT framework.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "author": "Rainfore <rainforest92@126.com>",
   "bin": {
     "pursuit": "./bin/pursuit"
