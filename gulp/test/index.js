@@ -14,7 +14,7 @@ gulp.task('test-clean', (done) => {
 });
 
 gulp.task('test-entry', ['test-clean'], (done) => {
-    return gulp.src(settings.src + '/**/test/spec.js', { read: false })
+    return gulp.src(settings.src + '/**/test/*.js', { read: false })
         .pipe(concatFilenames('test.js', {
             template: (filename) => `import '${filename}';`,
         }))
@@ -40,7 +40,7 @@ gulp.task('test', ['test-entry'], (done) => {
 
     if (settings.online) {
         config.singleRun = true;
-        config.reporters = ['mocha', 'coverage', 'coveralls'];
+        config.reporters = ['mocha', 'coverage'];
     }
 
     if (settings.verbose)

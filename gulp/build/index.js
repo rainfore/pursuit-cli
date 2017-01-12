@@ -64,7 +64,7 @@ gulp.task('build-js', (done) => {
 
     if (settings.watch) {
         webpackConfig.watch = true;
-        webpackConfig.devtool = 'eval';
+        webpackConfig.devtool = 'eval-source-map';
     }
 
     let stream = gulp.src(settings.src + '/page/*/index.js')
@@ -107,4 +107,3 @@ if (settings.watch)
     gulp.task('build', ['build-copy-watch', 'build-page-watch', 'build-js-watch', 'build-css-watch']);
 else
     gulp.task('build', ['build-copy', 'build-page', 'build-js', 'build-css']);
-
