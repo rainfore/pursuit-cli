@@ -64,7 +64,7 @@ gulp.task('build-js', (done) => {
 
     if (settings.watch) {
         webpackConfig.watch = true;
-        webpackConfig.devtool = 'eval-source-map';
+        webpackConfig.devtool = '#eval-source-map';
     }
 
     let stream = gulp.src(settings.src + '/page/*/index.js')
