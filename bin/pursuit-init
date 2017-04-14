@@ -20,5 +20,5 @@ console.log(execSync([
     `cd ${repo}`,
     `rm -rf .git`,
     `git init`,
-].join(';')) + '');
+].join('&&')) + '');
 process.chdir(repo);
