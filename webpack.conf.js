@@ -17,7 +17,7 @@ module.exports = function(options) {
         module: {
             loaders: [
                 { test: /\.rgl$/, loader: require.resolve('rgl-loader') },
-                { test: /\.js$/, exclude: /node_modules\/(?!rgui-)/, loader: require.resolve('babel-loader') }
+                { test: /\.js$/, exclude: /node_modules\/(?!_?rgui-)/, loader: require.resolve('babel-loader') }
             ],
         },
     }, settings.webpack, options);

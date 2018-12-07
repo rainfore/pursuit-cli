@@ -53,6 +53,7 @@ pursuit dev
     # On Mac
     brew install fontforge --with-python
     brew install eot-utils
+    brew install woff2
     gem install fontcustom
     ```
 
