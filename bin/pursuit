@@ -85,8 +85,6 @@ if (command.startsWith('build'))
     require('../gulp/build/index.js');
 else if (command.startsWith('lint'))
     require('../gulp/lint/index.js');
-else if (command.startsWith('test'))
-    require('../gulp/test/index.js');
 else if (command.startsWith('icon'))
     require('../gulp/icon/index.js');
 else
