@@ -26,7 +26,7 @@ gulp.task('lint-run', (done) => {
         .pipe(eslint.format());
 
     if(settings.fix)
-        stream = stream.pipe(gulpIf((file) => file.eslint !== null && file.eslint.fixed, gulp.dest(settings.src)));
+        stream = stream.pipe(gulpIf((file) => file.eslint && file.eslint.fixed, gulp.dest(settings.src)));
 
     if(!settings.watch)
         stream = stream.pipe(eslint.failAfterError());
